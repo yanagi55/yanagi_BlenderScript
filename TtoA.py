@@ -2,9 +2,8 @@ import bpy
 from mathutils import Quaternion, Matrix
 
 ###
-# MODE=0: TtoA, MODE=1: AtoT
 MODE = 0
-
+# MODE=0: TtoA, MODE=1: AtoT
 ###
 
 target_body_name = "Body2"
@@ -14,6 +13,8 @@ right_arm_name = "Right arm"
 t_to_a = -1
 a_to_t = 1
 angle = 0.785398
+
+###
 
 if (MODE == 0):
     angle = angle * t_to_a
@@ -48,7 +49,12 @@ if armature_mod:
     bpy.ops.object.select_all(action='DESELECT')
     target_skin.select_set(True)
     bpy.context.view_layer.objects.active = target_skin
-    bpy.ops.sk.apply_mods_sk()
+    
+    if target_skin.data.shape_keys is not None:
+        bpy.ops.object.modifier_apply(modifier=armature_mod.name)
+
+    else:
+        bpy.ops.sk.apply_mods_sk()
 
 # ポーズモードに移行する
 bpy.ops.object.select_all(action='DESELECT')
