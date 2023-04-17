@@ -15,10 +15,10 @@ t_to_a = -1
 a_to_t = 1
 angle = 0.785398
 
-def select_armature_and_posemode():
+def select_armature_and_posemode(armature_name_str:str):
     bpy.ops.object.mode_set(mode='OBJECT')
     bpy.ops.object.select_all(action='DESELECT')
-    armature = bpy.data.objects[armature_name]
+    armature = bpy.data.objects[armature_name_str]
     armature.select_set(True)
     bpy.context.view_layer.objects.active = armature
     bpy.ops.object.mode_set(mode='POSE')
@@ -29,7 +29,7 @@ def select_armature_and_posemode():
 def check_angle_below(left_arm_name:str, right_arm_name:str, target_angle):
 
     # Armatureを選択し、ポーズモードにする
-    select_armature_and_posemode()
+    select_armature_and_posemode(armature_name)
 
     # 左腕と右腕のボーンを取得
     left_arm_bone = bpy.context.object.pose.bones.get(left_arm_name)
@@ -68,7 +68,7 @@ else:
 
 
 # Armatureを選択し、ポーズモードにする
-armature = select_armature_and_posemode()
+armature = select_armature_and_posemode(armature_name)
 
 # 左右の腕を回転
 for bone_name in [left_arm_name, right_arm_name]:
@@ -97,7 +97,7 @@ else:
     bpy.ops.sk.apply_mods_sk()
 
 # ポーズモードに移行する
-select_armature_and_posemode()
+select_armature_and_posemode(armature_name)
 
 # レストポーズとして適用
 bpy.ops.pose.armature_apply()
