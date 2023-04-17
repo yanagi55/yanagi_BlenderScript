@@ -1,5 +1,4 @@
 import bpy
-from mathutils import Quaternion, Matrix
 import math
 import mathutils
 
@@ -76,7 +75,7 @@ for bone_name in [left_arm_name, right_arm_name]:
     bone = armature.pose.bones[bone_name]
 
     # クォータニオンで回転を設定する。
-    rotation_quat = Quaternion((1, 0, 0), angle)
+    rotation_quat =mathutils.Quaternion((1, 0, 0), angle)
     bone.rotation_quaternion = rotation_quat
 
 # オブジェクトモードに移行し、target_skinを選択する
