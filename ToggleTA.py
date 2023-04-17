@@ -111,4 +111,7 @@ target_skin = bpy.data.objects[target_body_name]
 mod = target_skin.modifiers.new(name=armature_name, type='ARMATURE')
 mod.object = armature
 
+# 選択を元の状態に戻す
+bpy.context.view_layer.objects.active = target_skin
+
 print('Toggle T-A Pose Done.')
