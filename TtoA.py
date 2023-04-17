@@ -50,7 +50,7 @@ if armature_mod:
     target_skin.select_set(True)
     bpy.context.view_layer.objects.active = target_skin
     
-    if target_skin.data.shape_keys is not None:
+    if target_skin.data.shape_keys is None:
         bpy.ops.object.modifier_apply(modifier=armature_mod.name)
 
     else:
