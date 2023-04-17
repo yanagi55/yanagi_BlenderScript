@@ -60,7 +60,7 @@ def check_angle_below(left_arm_name:str, right_arm_name:str, target_angle):
 
     return True
 
-
+# チェック処理
 if check_angle_below(left_arm_name, right_arm_name, target_angle):
     angle = angle * t_to_a
 else:
@@ -75,7 +75,7 @@ for bone_name in [left_arm_name, right_arm_name]:
     bone = armature.pose.bones[bone_name]
 
     # クォータニオンで回転を設定する。
-    rotation_quat =mathutils.Quaternion((1, 0, 0), angle)
+    rotation_quat = mathutils.Quaternion((1, 0, 0), angle)
     bone.rotation_quaternion = rotation_quat
 
 # オブジェクトモードに移行し、target_skinを選択する
@@ -85,17 +85,16 @@ target_skin = bpy.data.objects[target_body_name]
 # Armatureモディファイアを適用する
 armature_mod = target_skin.modifiers.get(armature_name)
 
-# 選択解除（Blender仕様に合わせたおまじない的）
-if armature_mod:
-    bpy.ops.object.select_all(action='DESELECT')
-    target_skin.select_set(True)
-    bpy.context.view_layer.objects.active = target_skin
-    
-    if target_skin.data.shape_keys is None:
-        bpy.ops.object.modifier_apply(modifier=armature_mod.name)
+# 選択解除
+bpy.ops.object.select_all(action='DESELECT')
 
-    else:
-        bpy.ops.sk.apply_mods_sk()
+# ターゲットスキンの選択と適用
+target_skin.select_set(True)
+bpy.context.view_layer.objects.active = target_skin
+if target_skin.data.shape_keys is None:
+    bpy.ops.object.modifier_apply(modifier=armature_mod.name)
+else:
+    bpy.ops.sk.apply_mods_sk()
 
 # ポーズモードに移行する
 select_armature_and_posemode()
