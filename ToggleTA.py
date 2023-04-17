@@ -3,10 +3,10 @@ from mathutils import Quaternion, Matrix
 import math
 import mathutils
 
-target_angle = 45
 
 ### 変数
 
+target_angle = 45
 target_body_name = bpy.context.active_object.name
 armature_name = "Armature"
 left_arm_name = "Left arm"
@@ -111,4 +111,4 @@ target_skin = bpy.data.objects[target_body_name]
 mod = target_skin.modifiers.new(name=armature_name, type='ARMATURE')
 mod.object = armature
 
-print('done')
+print('Toggle T-A Pose Done.')
