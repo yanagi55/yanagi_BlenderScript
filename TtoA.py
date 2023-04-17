@@ -16,17 +16,21 @@ t_to_a = -1
 a_to_t = 1
 angle = 0.785398
 
-
-def check_angle_below(left_arm_name:str, right_arm_name:str, target_angle):
-
-
-    # Armatureを選択し、ポーズモードにする
+def select_armature_and_posemode():
     bpy.ops.object.mode_set(mode='OBJECT')
     bpy.ops.object.select_all(action='DESELECT')
     armature = bpy.data.objects[armature_name]
     armature.select_set(True)
     bpy.context.view_layer.objects.active = armature
     bpy.ops.object.mode_set(mode='POSE')
+
+    return armature
+
+
+def check_angle_below(left_arm_name:str, right_arm_name:str, target_angle):
+
+    # Armatureを選択し、ポーズモードにする
+    select_armature_and_posemode()
 
     # 左腕と右腕のボーンを取得
     left_arm_bone = bpy.context.object.pose.bones.get(left_arm_name)
@@ -52,33 +56,20 @@ def check_angle_below(left_arm_name:str, right_arm_name:str, target_angle):
         # ボーンの方向ベクトルが指定角度以上傾いているかどうかを判定
         if math.degrees(angle_left) > target_angle:
             return False
-
         if math.degrees(angle_right) > target_angle:
             return False
 
     return True
 
 
-
-
 if check_angle_below(left_arm_name, right_arm_name, target_angle):
-    MODE = 0 # TtoA
-else:
-    MODE = 1 # AtoT
-# ###
-
-if (MODE == 0):
     angle = angle * t_to_a
-if (MODE == 1):
+else:
     angle = angle * a_to_t
 
+
 # Armatureを選択し、ポーズモードにする
-bpy.ops.object.mode_set(mode='OBJECT')
-bpy.ops.object.select_all(action='DESELECT')
-armature = bpy.data.objects[armature_name]
-armature.select_set(True)
-bpy.context.view_layer.objects.active = armature
-bpy.ops.object.mode_set(mode='POSE')
+armature = select_armature_and_posemode()
 
 # 左右の腕を回転
 for bone_name in [left_arm_name, right_arm_name]:
@@ -108,10 +99,7 @@ if armature_mod:
         bpy.ops.sk.apply_mods_sk()
 
 # ポーズモードに移行する
-bpy.ops.object.select_all(action='DESELECT')
-armature.select_set(True)
-bpy.context.view_layer.objects.active = armature
-bpy.ops.object.mode_set(mode='POSE')
+select_armature_and_posemode()
 
 # レストポーズとして適用
 bpy.ops.pose.armature_apply()
